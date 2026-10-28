@@ -27,7 +27,9 @@ function Assistant() {
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   const end = useRef<HTMLDivElement>(null);
-  useEffect(() => end.current?.scrollIntoView({ behavior: "smooth" }), [msgs, loading]);
+  useEffect(() => {
+    end.current?.scrollIntoView({ behavior: "smooth" });
+  }, [msgs, loading]);
 
   async function send(text: string) {
     const t = text.trim();
