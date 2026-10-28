@@ -69,7 +69,7 @@ const StationMap = forwardRef<MapHandle, { stations: Station[]; mode: "2d" | "3d
         m.on("click", "pts", (e: maplibregl.MapLayerMouseEvent) => {
           const f = e.features?.[0];
           if (!f) return;
-          const s = stations.find((x) => x.id === f.properties?.id);
+          const s = stations.find((x) => x.id === f.properties?.['id']);
           if (!s) return;
           selectRef.current(s);
           new maplibregl.Popup({ offset: 12 }).setLngLat([s.lng, s.lat])

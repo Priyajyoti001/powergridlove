@@ -39,7 +39,7 @@ function Analytics() {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={vehicleShare} dataKey="value" nameKey="name" innerRadius={55} outerRadius={100} paddingAngle={3} stroke="none" label={({ value }) => `${value}%`}>
-                {vehicleShare.map((_, i) => <Cell key={i} fill={CHART_COLORS[i]} />)}
+                {vehicleShare.map((_, i) => <Cell key={i} fill={CHART_COLORS[i] ?? "var(--chart-1)"} />)}
               </Pie>
               <Tooltip {...tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 12 }} />

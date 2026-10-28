@@ -69,7 +69,7 @@ function Dashboard() {
           <ResponsiveContainer width="100%" height={280}>
             <PieChart>
               <Pie data={statusShare} dataKey="value" nameKey="name" innerRadius={60} outerRadius={95} paddingAngle={3} stroke="none">
-                {statusShare.map((_, i) => <Cell key={i} fill={CHART_COLORS[i]} />)}
+                {statusShare.map((_, i) => <Cell key={i} fill={CHART_COLORS[i] ?? "var(--chart-1)"} />)}
               </Pie>
               <Tooltip {...tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 12 }} />
@@ -93,7 +93,7 @@ function Dashboard() {
           <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie data={chargerTypes} dataKey="value" nameKey="name" outerRadius={95} stroke="none">
-                {chargerTypes.map((_, i) => <Cell key={i} fill={CHART_COLORS[(i + 1) % 5]} />)}
+                {chargerTypes.map((_, i) => <Cell key={i} fill={CHART_COLORS[(i + 1) % 5] ?? "var(--chart-1)"} />)}
               </Pie>
               <Tooltip {...tooltipStyle} />
               <Legend wrapperStyle={{ fontSize: 12 }} />

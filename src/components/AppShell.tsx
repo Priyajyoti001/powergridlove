@@ -99,7 +99,7 @@ export function Panel({ title, children, className = "" }: { title?: string; chi
   );
 }
 
-export const CHART_COLORS = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
+export const CHART_COLORS: string[] & { [i: number]: string } = ["var(--chart-1)", "var(--chart-2)", "var(--chart-3)", "var(--chart-4)", "var(--chart-5)"];
 export const tooltipStyle = {
   contentStyle: { background: "var(--popover)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--popover-foreground)" },
   labelStyle: { color: "var(--muted-foreground)" },

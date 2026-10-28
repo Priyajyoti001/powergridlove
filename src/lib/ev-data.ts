@@ -79,8 +79,8 @@ export function getStations(): Station[] {
         status,
         chargers,
         inUse,
-        powerKw: [7.4, 22, 30, 60, 120, 240][Math.floor(r() * 6)],
-        operator: OPERATORS[Math.floor(r() * OPERATORS.length)],
+        powerKw: [7.4, 22, 30, 60, 120, 240][Math.floor(r() * 6)] ?? 22,
+        operator: OPERATORS[Math.floor(r() * OPERATORS.length)] ?? "EESL",
       });
     }
   });
