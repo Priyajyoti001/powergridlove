@@ -1,10 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis, Area, AreaChart, Legend } from "recharts";
 import { Zap, PlugZap, HardHat, Lightbulb, ArrowRight } from "lucide-react";
-import { AppShell as _A, PageHeader, Panel, CHART_COLORS, tooltipStyle } from "@/components/AppShell";
+import { PageHeader, Panel, CHART_COLORS, tooltipStyle } from "@/components/AppShell";
 import { NATIONAL, crowdByHour, topStates, statusShare, chargerTypes } from "@/lib/ev-data";
 
-void _A;
 
 export const Route = createFileRoute("/")({
   head: () => ({
