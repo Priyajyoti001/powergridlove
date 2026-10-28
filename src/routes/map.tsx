@@ -56,7 +56,7 @@ function MapPage() {
   }
 
   function locate() {
-    if (!navigator.geolocation) return toast.error("Location isn't supported in this browser.");
+    if (!navigator.geolocation) { toast.error("Location isn't supported in this browser."); return; }
     setBusy(true);
     navigator.geolocation.getCurrentPosition(
       (p) => { setBusy(false); goTo(p.coords.latitude, p.coords.longitude, "Your location"); },

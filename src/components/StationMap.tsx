@@ -1,5 +1,6 @@
 import { useEffect, useImperativeHandle, useRef, forwardRef } from "react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
+import type { FeatureCollection, Point } from "geojson";
 import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Station } from "@/lib/ev-data";
@@ -11,7 +12,7 @@ export interface MapHandle {
   setUser: (lng: number, lat: number) => void;
 }
 
-const COLORS: Record<string, string> = { available: "#9be15d", busy: "#f2994a", construction: "#f2c94c", potential: "#56ccf2" };
+const COLORS = { available: "#9be15d", busy: "#f2994a", construction: "#f2c94c", potential: "#56ccf2" };
 
 const StationMap = forwardRef<MapHandle, { stations: Station[]; mode: "2d" | "3d"; onSelect: (s: Station) => void }>(
   function StationMap({ stations, mode, onSelect }, ref) {
@@ -61,18 +62,18 @@ const StationMap = forwardRef<MapHandle, { stations: Station[]; mode: "2d" | "3d
         m.addLayer({ id: "pts", type: "circle", source: "stations", filter: ["!", ["has", "point_count"]],
           paint: { "circle-color": ["match", ["get", "status"], "available", COLORS.available, "busy", COLORS.busy, "construction", COLORS.construction, COLORS.potential],
             "circle-radius": ["interpolate", ["linear"], ["zoom"], 5, 5, 14, 10], "circle-stroke-color": "#0b1220", "circle-stroke-width": 2 } });
-        m.on("click", "clusters", (e) => {
+        m.on("click", "clusters", (e: maplibregl.MapLayerMouseEvent) => {
           const f = e.features?.[0];
-          if (f) m.easeTo({ center: (f.geometry as GeoJSON.Point).coordinates as [number, number], zoom: m.getZoom() + 2.5, duration: 700 });
+          if (f) m.easeTo({ center: (f.geometry as Point).coordinates as [number, number], zoom: m.getZoom() + 2.5, duration: 700 });
         });
-        m.on("click", "pts", (e) => {
+        m.on("click", "pts", (e: maplibregl.MapLayerMouseEvent) => {
           const f = e.features?.[0];
           if (!f) return;
           const s = stations.find((x) => x.id === f.properties?.id);
           if (!s) return;
           selectRef.current(s);
           new maplibregl.Popup({ offset: 12 }).setLngLat([s.lng, s.lat])
-            .setHTML(`<strong>${s.name}</strong><br/><span style="opacity:.7">${s.city}, ${s.state}</span><br/>${s.inUse}/${s.chargers} in use · ${s.powerKw} kW<br/><span style="color:${COLORS[s.status]};text-transform:capitalize">${s.status}</span>`)
+            .setHTML(`<strong>${s.name}</strong><br/><span style="opacity:.7">${s.city}, ${s.state}</span><br/>${s.inUse}/${s.chargers} in use · ${s.powerKw} kW<br/><span style="color:${COLORS[s.status as keyof typeof COLORS]};text-transform:capitalize">${s.status}</span>`)
             .addTo(m);
         });
         for (const l of ["clusters", "pts"]) {
@@ -117,7 +118,7 @@ const StationMap = forwardRef<MapHandle, { stations: Station[]; mode: "2d" | "3d
   },
 );
 
-function toGeo(stations: Station[]): GeoJSON.FeatureCollection {
+function toGeo(stations: Station[]): FeatureCollection {
   return {
     type: "FeatureCollection",
     features: stations.map((s) => ({ type: "Feature", geometry: { type: "Point", coordinates: [s.lng, s.lat] }, properties: { id: s.id, status: s.status } })),
