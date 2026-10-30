@@ -13,6 +13,8 @@ export const Route = createFileRoute("/assistant")({
       { name: "description", content: "Ask anything about EV charging, policies and EV trends in India." },
       { property: "og:title", content: "AI Assistant — Power Grid" },
       { property: "og:description", content: "Ask anything about EV charging in India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Assistant,

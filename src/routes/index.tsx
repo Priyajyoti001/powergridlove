@@ -13,6 +13,8 @@ export const Route = createFileRoute("/")({
       { name: "description", content: "Live overview of EV charging stations across India: totals, availability and construction." },
       { property: "og:title", content: "Dashboard — Power Grid" },
       { property: "og:description", content: "Live overview of EV charging stations across India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Dashboard,

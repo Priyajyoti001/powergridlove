@@ -15,6 +15,8 @@ export const Route = createFileRoute("/map")({
       { name: "description", content: "Interactive 2D/3D map of EV charging stations across India with near-me search." },
       { property: "og:title", content: "Live Charging Map — Power Grid" },
       { property: "og:description", content: "Interactive 2D/3D map of EV charging stations across India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MapPage,

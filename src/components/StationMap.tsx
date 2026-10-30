@@ -21,7 +21,9 @@ function mapColors() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return value;
     ctx.fillStyle = value;
-    return ctx.fillStyle;
+    ctx.fillRect(0, 0, 1, 1);
+    const pixel = ctx.getImageData(0, 0, 1, 1).data;
+    return `#${Array.from(pixel.slice(0, 3)).map((c) => c.toString(16).padStart(2, "0")).join("")}`;
   };
   return { available: read("--success"), busy: read("--chart-4"), construction: read("--warning"), potential: read("--accent"), foreground: read("--foreground"), background: read("--background"), building: read("--secondary") };
 }

@@ -12,6 +12,8 @@ export const Route = createFileRoute("/login")({
       { name: "description", content: "Sign in to Power Grid, India's EV charging intelligence platform." },
       { property: "og:title", content: "Sign in — Power Grid" },
       { property: "og:description", content: "Sign in to Power Grid." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Login,
