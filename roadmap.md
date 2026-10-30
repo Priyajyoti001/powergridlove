@@ -1,7 +1,7 @@
 # Tasks
-- [ ] Verify every report destination and correct mismatched sources.
-- [ ] Update the report links and resource labels.
-- [ ] Test the report destinations and signed-in page navigation.
-- [ ] Diagnose and fix the AI Assistant, then verify a real query.
-- [ ] Diagnose and fix the map's potential-sites option.
-- [ ] Diagnose and fix the dashboard Open live map button.
+- [x] Verify every report destination and correct mismatched sources; omit four inaccessible or unverified resources.
+- [x] Update the report links and resource labels.
+- [x] Test every remaining report destination through signed-in page navigation.
+- [x] Verify a real AI query; add explicit retry recovery and prevent invented live station claims.
+- [x] Correct potential-site cluster colors and non-operational details; verify filter counts in 2D/3D.
+- [x] Verify dashboard Open live map navigation; remove repeated session lookups on page transitions.
