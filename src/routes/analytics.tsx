@@ -10,6 +10,8 @@ export const Route = createFileRoute("/analytics")({
       { name: "description", content: "EV sales projections to 2030, vehicle share, registrations, industry and state-wise growth in India." },
       { property: "og:title", content: "EV Analytics — Power Grid" },
       { property: "og:description", content: "EV sales projections to 2030 and state-wise EV growth in India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Analytics,

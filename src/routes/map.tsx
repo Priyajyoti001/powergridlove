@@ -1,5 +1,6 @@
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import { lazy, Suspense, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { LocateFixed, Search, Box, Square, Loader2, MapPin } from "lucide-react";
 import { toast } from "sonner";
 import { getStations, type Station, type StationStatus } from "@/lib/ev-data";
@@ -14,6 +15,8 @@ export const Route = createFileRoute("/map")({
       { name: "description", content: "Interactive 2D/3D map of EV charging stations across India with near-me search." },
       { property: "og:title", content: "Live Charging Map — Power Grid" },
       { property: "og:description", content: "Interactive 2D/3D map of EV charging stations across India." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MapPage,
@@ -44,6 +47,9 @@ function MapPage() {
   const [selected, setSelected] = useState<Station | null>(null);
 
   const visible = useMemo(() => all.filter((s) => filters.has(s.status)), [all, filters]);
+  useEffect(() => {
+    setSelected((s) => s && filters.has(s.status) ? s : null);
+  }, [filters]);
   const nearby = useMemo(() => {
     if (!origin) return [];
     return visible.map((s) => ({ s, d: dist(origin.lat, origin.lng, s.lat, s.lng) })).sort((a, b) => a.d - b.d).slice(0, 8);
@@ -96,6 +102,8 @@ function MapPage() {
             <button className="flex w-full items-center justify-center gap-2 rounded-lg border py-2 text-sm hover:bg-secondary"><Search className="h-4 w-4" /> Search</button>
           </form>
         </div>
+        <p className="text-xs text-muted-foreground" role="status">{visible.length} visible · Illustrative station data</p>
+        {visible.length === 0 && <p className="text-sm text-muted-foreground">No sites selected.</p>}
         <div className="glass rounded-xl p-4">
           <h3 className="mb-2 text-sm font-semibold text-muted-foreground">Show</h3>
           {STATUS.map((s) => (
@@ -112,7 +120,7 @@ function MapPage() {
             {nearby.map(({ s, d }) => (
               <button key={s.id} onClick={() => { setSelected(s); mapRef.current?.flyTo(s.lng, s.lat, 15); }} className="flex w-full items-start gap-2 rounded-lg p-2 text-left hover:bg-secondary">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span className="flex-1 text-sm"><span className="block font-medium">{s.name}</span><span className="text-xs text-muted-foreground">{s.city} · {s.inUse}/{s.chargers} in use · {s.status}</span></span>
+                <span className="flex-1 text-sm"><span className="block font-medium">{s.status === "potential" ? `Potential site · ${s.city}` : s.name}</span><span className="text-xs text-muted-foreground">{s.city} · {s.status === "potential" ? "Proposed · Not operational" : s.status === "construction" ? "Under construction" : `${s.inUse}/${s.chargers} in use · ${s.status}`}</span></span>
                 <span className="text-xs text-muted-foreground">{d.toFixed(1)} km</span>
               </button>
             ))}
@@ -120,8 +128,8 @@ function MapPage() {
         )}
         {selected && !origin && (
           <div className="glass rounded-xl p-4 text-sm">
-            <p className="font-semibold">{selected.name}</p>
-            <p className="text-muted-foreground">{selected.city}, {selected.state} · {selected.powerKw} kW</p>
+            <p className="font-semibold">{selected.status === "potential" ? `Potential site · ${selected.city}` : selected.name}</p>
+            <p className="text-muted-foreground">{selected.city}, {selected.state} · {selected.status === "potential" ? "Proposed · Not operational" : `${selected.powerKw} kW`}</p>
           </div>
         )}
       </aside>
@@ -133,9 +141,9 @@ function MapPage() {
         </ClientOnly>
         <div className="glass absolute left-3 top-3 flex rounded-lg p-1">
           {(["2d", "3d"] as const).map((m) => (
-            <button key={m} onClick={() => setMode(m)} className={`flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition ${mode === m ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+            <Button key={m} variant={mode === m ? "default" : "ghost"} size="sm" aria-pressed={mode === m} onClick={() => setMode(m)}>
               {m === "2d" ? <Square className="h-3.5 w-3.5" /> : <Box className="h-3.5 w-3.5" />} {m.toUpperCase()}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
