@@ -19,18 +19,24 @@ export function AppShell({ children }: { children: ReactNode }) {
   const isLogin = path === "/login";
 
   useEffect(() => {
+    let active = true;
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       setEmail(session?.user.email ?? null);
-      if (!session && !isLogin) navigate({ to: "/login" });
-    });
-    supabase.auth.getUser().then(({ data }) => {
-      setEmail(data.user?.email ?? null);
-      if (!data.user && !isLogin) navigate({ to: "/login" });
-      if (data.user && isLogin) navigate({ to: "/" });
       setReady(true);
     });
-    return () => sub.subscription.unsubscribe();
-  }, [isLogin, navigate]);
+    supabase.auth.getSession().then(({ data }) => {
+      if (!active) return;
+      setEmail(data.session?.user.email ?? null);
+      setReady(true);
+    });
+    return () => { active = false; sub.subscription.unsubscribe(); };
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    if (!email && !isLogin) navigate({ to: "/login" });
+    if (email && isLogin) navigate({ to: "/" });
+  }, [ready, email, isLogin, navigate]);
 
   if (isLogin) return <>{children}</>;
   if (!ready || !email)

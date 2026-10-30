@@ -3,6 +3,7 @@ import { Bar, BarChart, CartesianGrid, Cell, Pie, PieChart, ResponsiveContainer,
 import { Zap, PlugZap, HardHat, Lightbulb, ArrowRight } from "lucide-react";
 import { PageHeader, Panel, CHART_COLORS, tooltipStyle } from "@/components/AppShell";
 import { NATIONAL, crowdByHour, topStates, statusShare, chargerTypes } from "@/lib/ev-data";
+import { Button } from "@/components/ui/button";
 
 
 export const Route = createFileRoute("/")({
@@ -29,9 +30,9 @@ function Dashboard() {
     <>
       <div className="flex flex-wrap items-end justify-between gap-4">
         <PageHeader eyebrow="National overview" title="EV charging across India" desc="A real-time snapshot of public charging infrastructure, demand and growth." />
-        <Link to="/map" className="mb-8 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-glow transition hover:opacity-90">
+        <Button asChild className="mb-8" size="lg"><Link to="/map">
           Open live map <ArrowRight className="h-4 w-4" />
-        </Link>
+        </Link></Button>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
