@@ -142,14 +142,21 @@ export const stateGrowth = [
   { state: "BR", growth: 40, penetration: 9.8 }, { state: "TS", growth: 30, penetration: 6.1 },
 ];
 
-export const reports = [
-  { title: "India EV Charging Infrastructure Guidelines 2024", org: "Ministry of Power", year: 2024, tag: "Policy", url: "https://powermin.gov.in/en/content/electric-vehicle" },
-  { title: "PM E-DRIVE Scheme", org: "Ministry of Heavy Industries", year: 2024, tag: "Policy", url: "https://heavyindustries.gov.in/pm-e-drive-scheme" },
-  { title: "India's Electric Mobility Transformation", org: "NITI Aayog & RMI", year: 2019, tag: "Research", url: "https://www.niti.gov.in/sites/default/files/2019-04/NITI-RMI-Report-Summary.pdf" },
-  { title: "Global EV Outlook", org: "International Energy Agency", year: 2025, tag: "Global", url: "https://www.iea.org/reports/global-ev-outlook-2025" },
-  { title: "Vahan Dashboard – Vehicle Registrations", org: "MoRTH", year: 2026, tag: "Data", url: "https://vahan.parivahan.gov.in/vahan4dashboard/" },
-  { title: "e-Amrit Portal", org: "NITI Aayog", year: 2025, tag: "Portal", url: "https://e-amrit.niti.gov.in/" },
-  { title: "Public EV Charging Station Locator", org: "Bureau of Energy Efficiency", year: 2025, tag: "Data", url: "https://evyatra.beeindia.gov.in/" },
-  { title: "EV Charging in India: State of Play", org: "CEEW", year: 2024, tag: "Research", url: "https://www.ceew.in/cef/intelligence/ev-charging" },
-  { title: "Electric Vehicle Sales Data", org: "SMEV", year: 2025, tag: "Industry", url: "https://www.smev.in/ev-sales" },
+export interface ReportResource {
+  title: string;
+  org: string;
+  year: number | null;
+  tag: string;
+  url: string;
+  action: string;
+}
+
+// Only include publisher destinations whose content and successful GET response
+// were verified. Live dashboards have no fabricated publication year.
+export const reports: ReportResource[] = [
+  { title: "Guidelines for Installation and Operation of Electric Vehicle Charging Infrastructure 2024", org: "Ministry of Power · Bureau of Energy Efficiency", year: 2024, tag: "Policy", url: "https://neca.beeindia.gov.in/show_content.php?lang=1&level=1&lid=35&ls_id=91", action: "Open guidelines" },
+  { title: "PM E-DRIVE Scheme", org: "Ministry of Heavy Industries", year: 2024, tag: "Policy", url: "https://pmedrive.heavyindustries.gov.in/", action: "Open scheme" },
+  { title: "India's Electric Mobility Transformation: Progress to Date and Future Opportunities", org: "NITI Aayog & RMI", year: 2019, tag: "Research", url: "https://rmi.org/resources/indias-electric-mobility-transformation/", action: "Open report" },
+  { title: "Global EV Outlook 2025", org: "International Energy Agency", year: 2025, tag: "Global", url: "https://iea.blob.core.windows.net/assets/7ea38b60-3033-42a6-9589-71134f4229f4/GlobalEVOutlook2025.pdf", action: "Open PDF" },
+  { title: "VAHAN Public Dashboard — Vehicle Registrations", org: "Ministry of Road Transport and Highways", year: null, tag: "Data", url: "https://analytics.parivahan.gov.in/analytics/publicdashboard/vahan?lang=en", action: "Open dashboard" },
 ];
